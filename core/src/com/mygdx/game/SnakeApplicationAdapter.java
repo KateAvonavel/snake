@@ -8,35 +8,46 @@ import static com.mygdx.game.GameProperties.*;
 
 public class SnakeApplicationAdapter extends ApplicationAdapter {
     private SpriteBatch batch;
-    private Texture cell;
-    private Texture snake;
-    private Texture apple;
+    private Texture cellTexture;
+    private Texture snakeTexture;
+    private Texture appleTexture;
+
+    private final Apple apple = new Apple();
 
     @Override
     public void create() {
         batch = new SpriteBatch();
-        apple = new Texture("apple.png");
-        cell = new Texture("cell.png");
-        snake = new Texture("snake.png");
+        appleTexture = new Texture("apple.png");
+        cellTexture = new Texture("cell.png");
+        snakeTexture = new Texture("snake.png");
     }
 
     @Override
     public void render() {
+
         batch.begin();
 
+        drawGameField();
+        drawApple();
+
+        batch.draw(snakeTexture, 10 * CELL_SIZE, 10 * CELL_SIZE);
+
+        batch.end();
+    }
+
+    private void drawApple() {
+        batch.draw(appleTexture, apple.xPos * CELL_SIZE, apple.yPos * CELL_SIZE);
+    }
+
+    private void drawGameField(){
         for (int xPos = 0; xPos < WIDTH; xPos++) {
             for (int yPos = 0; yPos < HEIGHT; yPos++) {
                 batch.draw(
-                        cell,
+                        cellTexture,
                         xPos * CELL_SIZE,
                         yPos * CELL_SIZE
                 );
             }
         }
-
-        batch.draw(snake, 10 * CELL_SIZE, 10 * CELL_SIZE);
-        batch.draw(apple, 2 * CELL_SIZE, 0);
-
-        batch.end();
     }
 }
