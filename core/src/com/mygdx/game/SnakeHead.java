@@ -1,9 +1,13 @@
 package com.mygdx.game;
 
 public class SnakeHead {
-    Direction direction = Direction.UP;
+    private Direction direction = Direction.UP;
     int xPos = 5;
     int yPos = 5;
+
+    public void setDirection (Direction direction) {
+        this.direction = direction;
+    }
 
     public void move() {
         switch (direction) {

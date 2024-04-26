@@ -1,6 +1,8 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -32,9 +34,26 @@ public class SnakeApplicationAdapter extends ApplicationAdapter {
         drawApple();
         drawSnake();
 
+        Direction direction = null;
+        if (Gdx.input.isKeyJustPressed(Input.Keys.W)){
+            direction = Direction.UP;
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.A)) {
+            direction = Direction.LEFT;
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.D)){
+            direction = Direction.RIGHT;
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.S)) {
+            direction = Direction.DOWN;
+        }
+        if (direction != null) {
+            snakeHead.setDirection(direction);
+        }
         snakeHead.move();
 
         batch.end();
+
     }
 
     private void drawSnake() {
