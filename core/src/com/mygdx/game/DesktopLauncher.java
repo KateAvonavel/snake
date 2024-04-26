@@ -8,7 +8,7 @@ import static com.mygdx.game.GameProperties.*;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-		config.setForegroundFPS(12); //частота
+		config.setForegroundFPS(4); //частота
 		config.setTitle("Snake"); // заголовок
 		config.setWindowedMode(
 				WIDTH * CELL_SIZE,

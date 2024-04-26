@@ -13,6 +13,7 @@ public class SnakeApplicationAdapter extends ApplicationAdapter {
     private Texture appleTexture;
 
     private final Apple apple = new Apple();
+    private final SnakeHead snakeHead = new SnakeHead();
 
     @Override
     public void create() {
@@ -29,10 +30,15 @@ public class SnakeApplicationAdapter extends ApplicationAdapter {
 
         drawGameField();
         drawApple();
+        drawSnake();
 
-        batch.draw(snakeTexture, 10 * CELL_SIZE, 10 * CELL_SIZE);
+        snakeHead.move();
 
         batch.end();
+    }
+
+    private void drawSnake() {
+        batch.draw(snakeTexture, snakeHead.xPos * CELL_SIZE, snakeHead.yPos * CELL_SIZE);
     }
 
     private void drawApple() {
