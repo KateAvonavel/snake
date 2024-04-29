@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import org.jetbrains.annotations.Nullable;
 
 import static com.mygdx.game.GameProperties.*;
 
@@ -14,8 +15,8 @@ public class SnakeApplicationAdapter extends ApplicationAdapter {
     private Texture snakeTexture;
     private Texture appleTexture;
 
-    private final Apple apple = new Apple();
-    private final SnakeHead snakeHead = new SnakeHead();
+    private Apple apple = new Apple();
+    private SnakeHead snakeHead = new SnakeHead();
 
     @Override
     public void create() {
@@ -34,6 +35,25 @@ public class SnakeApplicationAdapter extends ApplicationAdapter {
         drawApple();
         drawSnake();
 
+        batch.end();
+
+        Direction direction = recognazeDirection();
+        if (direction != null) {
+            snakeHead.setDirection(direction);
+        }
+
+        snakeHead.move();
+
+        if (isAppleCollision()){
+            apple = new Apple();
+        }
+        if (isSnakeOutOfGameBounds()) {
+            snakeHead = new SnakeHead();
+        }
+    }
+
+    @Nullable
+    private static Direction recognazeDirection() {
         Direction direction = null;
         if (Gdx.input.isKeyJustPressed(Input.Keys.W)){
             direction = Direction.UP;
@@ -47,13 +67,15 @@ public class SnakeApplicationAdapter extends ApplicationAdapter {
         if (Gdx.input.isKeyJustPressed(Input.Keys.S)) {
             direction = Direction.DOWN;
         }
-        if (direction != null) {
-            snakeHead.setDirection(direction);
-        }
-        snakeHead.move();
+        return direction;
+    }
 
-        batch.end();
+    private boolean isAppleCollision() {
+        return apple.yPos == snakeHead.yPos && apple.xPos == snakeHead.xPos;
+    }
 
+    private boolean isSnakeOutOfGameBounds() {
+        return snakeHead.xPos >= WIDTH || snakeHead.yPos >= HEIGHT || snakeHead.xPos < 0 || snakeHead.yPos < 0;
     }
 
     private void drawSnake() {
