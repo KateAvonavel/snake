@@ -16,7 +16,7 @@ public class SnakeApplicationAdapter extends ApplicationAdapter {
     private Texture appleTexture;
 
     private Apple apple = new Apple();
-    private SnakeHead snakeHead = new SnakeHead();
+    private Snake snake = new Snake();
 
     @Override
     public void create() {
@@ -39,16 +39,16 @@ public class SnakeApplicationAdapter extends ApplicationAdapter {
 
         Direction direction = recognazeDirection();
         if (direction != null) {
-            snakeHead.setDirection(direction);
+            snake.setDirection(direction);
         }
 
-        snakeHead.move();
+        snake.move();
 
         if (isAppleCollision()){
             apple = new Apple();
         }
         if (isSnakeOutOfGameBounds()) {
-            snakeHead = new SnakeHead();
+            snake = new Snake();
         }
     }
 
@@ -71,19 +71,22 @@ public class SnakeApplicationAdapter extends ApplicationAdapter {
     }
 
     private boolean isAppleCollision() {
-        return apple.yPos == snakeHead.yPos && apple.xPos == snakeHead.xPos;
+        return snake.snakeHead.equals(apple.cell);
     }
 
     private boolean isSnakeOutOfGameBounds() {
-        return snakeHead.xPos >= WIDTH || snakeHead.yPos >= HEIGHT || snakeHead.xPos < 0 || snakeHead.yPos < 0;
+        return snake.snakeHead.xPos >= WIDTH
+                || snake.snakeHead.yPos >= HEIGHT
+                || snake.snakeHead.xPos < 0
+                || snake.snakeHead.yPos < 0;
     }
 
     private void drawSnake() {
-        batch.draw(snakeTexture, snakeHead.xPos * CELL_SIZE, snakeHead.yPos * CELL_SIZE);
+        batch.draw(snakeTexture, snake.snakeHead.xPos * CELL_SIZE, snake.snakeHead.yPos * CELL_SIZE);
     }
 
     private void drawApple() {
-        batch.draw(appleTexture, apple.xPos * CELL_SIZE, apple.yPos * CELL_SIZE);
+        batch.draw(appleTexture, apple.cell.xPos * CELL_SIZE, apple.cell.yPos * CELL_SIZE);
     }
 
     private void drawGameField(){

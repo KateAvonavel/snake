@@ -1,9 +1,8 @@
 package com.mygdx.game;
 
-public class SnakeHead {
+public class Snake {
     private Direction direction = Direction.UP;
-    int xPos = 5;
-    int yPos = 5;
+    Cell snakeHead = new Cell(5,5);
 
     public void setDirection (Direction direction) {
         this.direction = direction;
@@ -12,16 +11,16 @@ public class SnakeHead {
     public void move() {
         switch (direction) {
             case UP:
-                yPos++;
+                snakeHead.yPos++;
                 break;
             case DOWN:
-                yPos--;
+                snakeHead.yPos--;
                 break;
             case LEFT:
-                xPos--;
+                snakeHead.xPos--;
                 break;
             case RIGHT:
-                xPos++;
+               snakeHead.xPos++;
                 break;
         }
     }

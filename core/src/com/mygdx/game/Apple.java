@@ -3,13 +3,13 @@ package com.mygdx.game;
 import java.util.Random;
 
 public class Apple {
-    private static Random random = new Random();
-    final int xPos;
-    final int yPos;
+    private static final Random random = new Random();
+    Cell cell;
 
     public Apple() {
-        xPos = random.nextInt(GameProperties.WIDTH);
-        yPos = random.nextInt(GameProperties.HEIGHT);
-        System.out.println(xPos + " " + yPos);
+        cell = new Cell(
+                random.nextInt(GameProperties.WIDTH),
+                random.nextInt(GameProperties.HEIGHT)
+        );
     }
 }
