@@ -42,26 +42,34 @@ public class SnakeApplicationAdapter extends ApplicationAdapter {
             snake.setDirection(direction);
         }
 
-        snake.move();
+        snake.move(apple);
 
-        if (isAppleCollision()){
+        if (isAppleCollision()) {
             apple = new Apple();
         }
         if (isSnakeOutOfGameBounds()) {
             snake = new Snake();
         }
+        if (isSnakeSelfCollision()) {
+            snake = new Snake();
+        }
+    }
+
+    private boolean isSnakeSelfCollision() {
+        int index = snake.snakeBody.indexOf(snake.snakeHead);
+        return index != snake.snakeBody.size() - 1;
     }
 
     @Nullable
     private static Direction recognazeDirection() {
         Direction direction = null;
-        if (Gdx.input.isKeyJustPressed(Input.Keys.W)){
+        if (Gdx.input.isKeyJustPressed(Input.Keys.W)) {
             direction = Direction.UP;
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.A)) {
             direction = Direction.LEFT;
         }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.D)){
+        if (Gdx.input.isKeyJustPressed(Input.Keys.D)) {
             direction = Direction.RIGHT;
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.S)) {
@@ -82,14 +90,16 @@ public class SnakeApplicationAdapter extends ApplicationAdapter {
     }
 
     private void drawSnake() {
-        batch.draw(snakeTexture, snake.snakeHead.xPos * CELL_SIZE, snake.snakeHead.yPos * CELL_SIZE);
+        snake.snakeBody.forEach(snakeCell ->
+                batch.draw(snakeTexture, snakeCell.xPos * CELL_SIZE, snakeCell.yPos * CELL_SIZE)
+        );
     }
 
     private void drawApple() {
         batch.draw(appleTexture, apple.cell.xPos * CELL_SIZE, apple.cell.yPos * CELL_SIZE);
     }
 
-    private void drawGameField(){
+    private void drawGameField() {
         for (int xPos = 0; xPos < WIDTH; xPos++) {
             for (int yPos = 0; yPos < HEIGHT; yPos++) {
                 batch.draw(
